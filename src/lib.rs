@@ -57,3 +57,21 @@ impl<T> Movable<T>
 	}
     }
 }
+
+use std::fmt::{Error, Formatter, Debug};
+impl<T: Debug> Debug for Movable<T>
+{
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), Error>
+    {
+        if self.has_moved()
+        {
+            write!(f, "Movable(#MOVED#)")
+        }
+        else
+        {
+            write!(f, "Movable({:?})",
+                   self.0.borrow().get(0).unwrap())
+        }
+    }
+}
+

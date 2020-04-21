@@ -3,7 +3,11 @@ name = "movable"
 version = "0.1.0"
 authors = ["technolapin <clement.chomicki@protonmail.com>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+readme="README.md"
+repository="https://github.com/technolapin/movable"
+license = "MIT OR Apache-2.0"
+description = "A structure whose internal content can be moved out immutably."
+categories=["data-structures", "memory-management"]
+keywords=["move", "immutable"]
 
 [dependencies]
