@@ -56,4 +56,59 @@ impl<T> Movable<T>
 	      .get(0).unwrap())
 	}
     }
+
+    /**
+    Replaces the contained value by a new one.
+    If the previous value has been moved out, the movable now contain a new value.
+     */
+    pub fn insert(&self, new: T)
+    {
+	if self.has_moved()
+	{
+	    self.0.borrow_mut().push(new);
+	}
+	else
+	{
+	    self.0.borrow_mut()[0] = new;
+	}
+    }
+
+    /**
+    Replaces the internal value by the result of the given closure.
+    The internal value is being moved by doing so.
+     */
+    pub fn update_move<F>(&self, f: F)
+    where
+	F: Fn(T) -> T
+    {
+	if self.has_moved()
+	{
+	    panic!("Movable already consumed!")
+	}
+	else
+	{
+	    let v = self.consume();
+	    self.insert(f(v));
+	}
+    }
+
+    
+}
+
+
+use std::fmt;
+
+impl<T: fmt::Debug> fmt::Debug for Movable<T>
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result
+    {
+	if self.has_moved()
+	{
+	    write!(f, "Movable(MOVED OUT)")
+	}
+	else
+	{
+	    write!(f, "Movable({:?})", self.0.borrow().get(0).unwrap())	    
+	}
+    }
 }
